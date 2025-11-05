@@ -1,0 +1,99 @@
+<div class="globe-dashboard">
+  <div class="dashboard-header">
+    <h1>Global Emissions Visualization</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+      <p>Loading emissions data...</p>
+    </div>
+  }
+
+  @if (!loading()) {
+    <div class="dashboard-content">
+      <!-- Country Selector Card -->
+      <mat-card class="selector-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>public</mat-icon>
+            Select Country
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Country</mat-label>
+            <mat-select
+              [value]="selectedCountry()"
+              (selectionChange)="selectCountry($event.value)"
+            >
+              <mat-option [value]="null">All Countries</mat-option>
+              @for (country of countries(); track country) {
+                <mat-option [value]="country">{{ country }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix>search</mat-icon>
+          </mat-form-field>
+
+          @if (selectedCountry()) {
+            <button mat-stroked-button (click)="clearSelection()" class="clear-btn">
+              <mat-icon>clear</mat-icon>
+              Clear Selection
+            </button>
+          }
+
+          <div class="info-section">
+            <h3>Currently Viewing:</h3>
+            <p class="selected-country">
+              {{ selectedCountry() || 'All Countries' }}
+            </p>
+            <p class="data-count">
+              {{ filteredEmissions().length }} emission records
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Interactive Globe Card -->
+      <mat-card class="globe-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>language</mat-icon>
+            Interactive 3D Globe
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="globe-content">
+          <app-globe-chart
+            [emissions]="emissions()"
+            [selectedCountry]="selectedCountry()"
+            (countrySelected)="onCountrySelectedFromGlobe($event)"
+            (countryHovered)="onCountryHovered($event)"
+          />
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Line Chart Card -->
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>show_chart</mat-icon>
+            Emissions Trends Over Time
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (filteredEmissions().length > 0) {
+            <app-line-chart
+              [emissions]="filteredEmissions()"
+              [country]="selectedCountry()"
+            />
+          } @else {
+            <div class="empty-state">
+              <mat-icon>bar_chart</mat-icon>
+              <p>No emissions data available for the selected country</p>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+  }
+</div>

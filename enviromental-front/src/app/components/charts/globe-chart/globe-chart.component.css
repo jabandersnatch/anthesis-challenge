@@ -1,0 +1,275 @@
+/**
+ * Globe Chart Component Styles
+ * Provides responsive and visually appealing 3D globe visualization
+ */
+
+.globe-chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  background: linear-gradient(135deg, #0a1128 0%, #001f54 50%, #0a1128 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.globe-container {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  cursor: grab;
+  transition: opacity 0.3s ease;
+}
+
+.globe-container:active {
+  cursor: grabbing;
+}
+
+.globe-container.loading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Loading State */
+.globe-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ffffff;
+  z-index: 10;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #4fc3f7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.globe-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4fc3f7;
+}
+
+/* Error State */
+.globe-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ffffff;
+  max-width: 400px;
+  padding: 40px;
+}
+
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.globe-error p {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ff6b6b;
+}
+
+.globe-error small {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Controls Overlay */
+.globe-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 24px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+  z-index: 5;
+}
+
+.control-info {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.control-item {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-item strong {
+  color: #4fc3f7;
+  font-weight: 600;
+}
+
+/* Legend */
+.globe-legend {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  min-width: 160px;
+}
+
+.globe-legend h4 {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 8px;
+}
+
+.legend-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .globe-chart-wrapper {
+    min-height: 400px;
+  }
+
+  .globe-container {
+    min-height: 400px;
+  }
+
+  .globe-controls {
+    bottom: 12px;
+    padding: 8px 16px;
+  }
+
+  .control-info {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .control-item {
+    font-size: 11px;
+  }
+
+  .globe-legend {
+    top: 12px;
+    right: 12px;
+    padding: 12px;
+    min-width: 140px;
+  }
+
+  .globe-legend h4 {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .legend-item {
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .globe-chart-wrapper {
+    min-height: 350px;
+    border-radius: 8px;
+  }
+
+  .globe-container {
+    min-height: 350px;
+  }
+
+  .control-info {
+    font-size: 10px;
+  }
+
+  .globe-legend {
+    padding: 10px;
+    min-width: 120px;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .globe-loading p {
+    font-size: 14px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation-duration: 2s;
+  }
+
+  .globe-container {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .globe-legend,
+  .globe-controls {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .legend-color {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}

@@ -1,0 +1,98 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: emissions-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-emissions_db}
+      POSTGRES_USER: ${DB_USER:-emissions_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-emissions_user} -d ${DB_NAME:-emissions_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Django Backend
+  backend:
+    build:
+      context: .
+      dockerfile: ./environmental_back/Dockerfile
+    container_name: emissions-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Database configuration
+      DB_ENGINE: django.db.backends.postgresql
+      DB_NAME: ${DB_NAME:-emissions_db}
+      DB_USER: ${DB_USER:-emissions_user}
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_HOST: db
+      DB_PORT: 5432
+      # Django configuration
+      DEBUG: ${DEBUG:-True}
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-docker-dev-key-change-in-production}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
+      # CORS configuration
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:4000,http://localhost:4200}
+    volumes:
+      - ./environmental_back:/app/environmental_back
+      - static_volume:/app/environmental_back/staticfiles
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  # Angular Frontend (Production SSR)
+  frontend:
+    build:
+      context: ./enviromental-front
+      dockerfile: Dockerfile
+      target: production
+    container_name: emissions-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      API_URL: ${API_URL:-http://backend:8000/api}
+    ports:
+      - "4000:4000"
+
+  # Angular Frontend (Development - optional)
+  frontend-dev:
+    build:
+      context: ./enviromental-front
+      dockerfile: Dockerfile
+      target: development
+    container_name: emissions-frontend-dev
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./enviromental-front:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  static_volume:
+
+networks:
+  default:
+    name: emissions-network

@@ -1,0 +1,15 @@
+[project]
+name = "technical-challenge"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.2"
+dependencies = [
+    "django-cors-headers>=4.9.0",
+    "django-countries>=8.0.0",
+    "django-filter>=25.2",
+    "djangorestframework>=3.16.1",
+    "drf-spectacular>=0.29.0",
+    "psycopg>=3.2.12",
+    "python-dotenv>=1.2.1",
+]

@@ -1,0 +1,138 @@
+<mat-card class="filter-panel">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>filter_list</mat-icon>
+      Filters
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="filterForm" class="filter-form">
+      <!-- Search -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          formControlName="search"
+          placeholder="Search by country or activity"
+        />
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+
+      <!-- Year Filters -->
+      <div class="filter-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Exact Year</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="year"
+            [min]="1900"
+            [max]="currentYear"
+          />
+          <mat-icon matPrefix>calendar_today</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Year From</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="yearFrom"
+            [min]="1900"
+            [max]="currentYear"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Year To</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="yearTo"
+            [min]="1900"
+            [max]="currentYear"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Country Filter -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Country Code</mat-label>
+        <input
+          matInput
+          formControlName="country"
+          placeholder="e.g., US, GB, DE"
+          maxlength="2"
+        />
+        <mat-icon matPrefix>public</mat-icon>
+      </mat-form-field>
+
+      <!-- Emission Type Filter -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Emission Type</mat-label>
+        <mat-select formControlName="emissionType">
+          <mat-option value="">All Types</mat-option>
+          @for (type of emissionTypes; track type) {
+            <mat-option [value]="type">{{ type }}</mat-option>
+          }
+        </mat-select>
+        <mat-icon matPrefix>air</mat-icon>
+      </mat-form-field>
+
+      <!-- Activity Filter -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Activity Sector</mat-label>
+        <mat-select formControlName="activity">
+          <mat-option value="">All Sectors</mat-option>
+          @for (act of activities; track act) {
+            <mat-option [value]="act">{{ act }}</mat-option>
+          }
+        </mat-select>
+        <mat-icon matPrefix>factory</mat-icon>
+      </mat-form-field>
+
+      <!-- Quick Filters -->
+      <div class="quick-filters">
+        <p class="quick-filters-label">Quick Filters:</p>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="applyQuickFilter('recent')"
+        >
+          <mat-icon>schedule</mat-icon>
+          Last 5 Years
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="applyQuickFilter('high')"
+        >
+          <mat-icon>trending_up</mat-icon>
+          Highest Emissions
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="applyQuickFilter('co2')"
+        >
+          <mat-icon>co2</mat-icon>
+          CO₂ Only
+        </button>
+      </div>
+
+      <!-- Actions -->
+      <div class="filter-actions">
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="clearFilters()"
+        >
+          <mat-icon>clear</mat-icon>
+          Clear Filters
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

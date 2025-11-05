@@ -1,0 +1,139 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Emissions Dashboard</h1>
+    <button mat-raised-button color="primary" (click)="refresh()" [disabled]="loading()">
+      <mat-icon>refresh</mat-icon>
+      Refresh Data
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+      <p>Loading emissions data...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon color="warn">error</mat-icon>
+        <h3>Error Loading Data</h3>
+        <p>{{ error()?.message }}</p>
+        <button mat-raised-button color="primary" (click)="refresh()">Try Again</button>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <!-- Dashboard Content -->
+  @if (!loading() && !error()) {
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon color="primary">public</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Total Countries</h3>
+            <p class="stat-value">{{ countriesCount() }}</p>
+            <p class="stat-label">Reporting emissions</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon color="accent">analytics</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Total Emissions</h3>
+            <p class="stat-value">{{ (totalEmissions() || 0).toFixed(2) }}</p>
+            <p class="stat-label">Mt CO₂ equivalent</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon color="warn">trending_up</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Average Emissions</h3>
+            <p class="stat-value">{{ (avgEmissions() || 0).toFixed(2) }}</p>
+            <p class="stat-label">Per record</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>calendar_today</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Latest Year</h3>
+            <p class="stat-value">{{ latestYear() }}</p>
+            <p class="stat-label">Most recent data</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Bar Chart Visualization -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Emissions by Country</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (emissions().length > 0) {
+          <app-bar-chart [emissions]="emissions()" />
+        } @else {
+          <div class="empty-state">
+            <mat-icon>bar_chart</mat-icon>
+            <p>No emissions data available</p>
+            <a mat-raised-button color="primary" routerLink="/create">
+              <mat-icon>add</mat-icon>
+              Add First Emission
+            </a>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="actions-grid">
+        <mat-card class="action-card" routerLink="/list">
+          <mat-card-content>
+            <mat-icon>list</mat-icon>
+            <h3>View All Emissions</h3>
+            <p>Browse and manage all emission records</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card" routerLink="/globe">
+          <mat-card-content>
+            <mat-icon>language</mat-icon>
+            <h3>Globe Visualization</h3>
+            <p>Interactive 3D globe with country data</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card" routerLink="/create">
+          <mat-card-content>
+            <mat-icon>add_circle</mat-icon>
+            <h3>Add New Record</h3>
+            <p>Create a new emission entry</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  }
+</div>

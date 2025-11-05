@@ -1,0 +1,48 @@
+<div class="globe-chart-wrapper">
+  @if (loading()) {
+    <div class="globe-loading">
+      <div class="loading-spinner"></div>
+      <p>Initializing 3D Globe...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="globe-error">
+      <div class="error-icon">⚠️</div>
+      <p>{{ error() }}</p>
+      <small>Your browser may not support WebGL</small>
+    </div>
+  }
+
+  @if (!error()) {
+    <div
+      #globeContainer
+      class="globe-container"
+      [class.loading]="loading()"
+    ></div>
+  }
+
+  @if (!loading() && !error()) {
+    <div class="globe-legend">
+      <h4>Emission Intensity</h4>
+      <div class="legend-scale">
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #00ff00;"></span>
+          <span>Low</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #ffff00;"></span>
+          <span>Medium</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #ff8800;"></span>
+          <span>High</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #ff0000;"></span>
+          <span>Very High</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

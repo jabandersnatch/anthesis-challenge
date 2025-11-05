@@ -1,0 +1,177 @@
+.emissions-list-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.list-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.header-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-card {
+  margin-top: 24px;
+}
+
+.results-info {
+  margin-bottom: 16px;
+}
+
+.results-info p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.emissions-table {
+  width: 100%;
+}
+
+.table-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.country-code {
+  font-weight: 500;
+  font-family: monospace;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.emissions-value {
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.activity-label {
+  text-transform: capitalize;
+}
+
+/* Emission Type Chips */
+mat-chip {
+  font-size: 12px;
+  min-height: 24px;
+}
+
+.chip-co2 {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.chip-ch4 {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.chip-n2o {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.chip-f_gases {
+  background-color: #9c27b0 !important;
+  color: white !important;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.empty-state p {
+  margin: 0 0 24px 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Error Card */
+.error-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px !important;
+}
+
+.error-card mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .emissions-list-container {
+    padding: 16px;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .list-header h1 {
+    font-size: 24px;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-actions button {
+    flex: 1;
+  }
+
+  .table-container {
+    font-size: 14px;
+  }
+}

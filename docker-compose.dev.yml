@@ -1,0 +1,38 @@
+# Development-specific docker-compose override
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  # Database with exposed port for local dev tools
+  db:
+    ports:
+      - "5432:5432"
+
+  # Backend with hot reload
+  backend:
+    build:
+      context: .
+      dockerfile: ./environmental_back/Dockerfile
+    volumes:
+      - ./environmental_back:/app/environmental_back
+      - /app/.venv
+    environment:
+      DEBUG: "True"
+      PYTHONUNBUFFERED: "1"
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  # Frontend development server with hot reload
+  frontend:
+    build:
+      context: ./enviromental-front
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./enviromental-front:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      NODE_ENV: development
+    command: npm start -- --host 0.0.0.0 --poll 2000

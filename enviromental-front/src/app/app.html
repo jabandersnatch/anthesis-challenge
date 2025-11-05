@@ -1,0 +1,53 @@
+<!-- Material Toolbar with Navigation -->
+<mat-toolbar color="primary" class="app-toolbar">
+  <span class="app-title">
+    <mat-icon>public</mat-icon>
+    {{ title }}
+  </span>
+
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <a
+      mat-button
+      routerLink="/dashboard"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </a>
+    <a
+      mat-button
+      routerLink="/list"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <mat-icon>list</mat-icon>
+      Emissions List
+    </a>
+    <a
+      mat-button
+      routerLink="/globe"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <mat-icon>language</mat-icon>
+      Globe View
+    </a>
+    <a
+      mat-raised-button
+      color="accent"
+      routerLink="/create"
+      class="create-btn"
+    >
+      <mat-icon>add</mat-icon>
+      Create New
+    </a>
+  </nav>
+</mat-toolbar>
+
+<!-- Main Content Area -->
+<div class="app-content">
+  <router-outlet />
+</div>
