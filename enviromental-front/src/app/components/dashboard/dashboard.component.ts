@@ -40,13 +40,22 @@ export class DashboardComponent implements OnInit {
   readonly totalEmissions = computed(() => {
     const emissionsArray = this.emissions();
     if (!emissionsArray || emissionsArray.length === 0) return 0;
-    return emissionsArray.reduce((sum, e) => sum + (e.emissions || 0), 0);
+
+    const total = emissionsArray.reduce((sum, e) => {
+      const value = Number(e.emissions) || 0;
+      return sum + value;
+    }, 0);
+
+    return total;
   });
 
   readonly avgEmissions = computed(() => {
     const emissionsArray = this.emissions();
     if (!emissionsArray || emissionsArray.length === 0) return 0;
-    const total = this.totalEmissions();
+    const total = emissionsArray.reduce((sum, e) => {
+      const value = Number(e.emissions) || 0;
+      return sum + value;
+    }, 0);
     return total / emissionsArray.length;
   });
 
@@ -57,6 +66,16 @@ export class DashboardComponent implements OnInit {
   readonly latestYear = computed(() => {
     const years = this.emissions().map((e) => e.year);
     return years.length > 0 ? Math.max(...years) : new Date().getFullYear();
+  });
+
+  readonly totalEmissionsFormatted = computed(() => {
+    const total = this.totalEmissions();
+    return Number(total || 0).toFixed(2);
+  });
+
+  readonly avgEmissionsFormatted = computed(() => {
+    const avg = this.avgEmissions();
+    return Number(avg || 0).toFixed(2);
   });
 
   async ngOnInit(): Promise<void> {

@@ -52,7 +52,7 @@
           </div>
           <div class="stat-info">
             <h3>Total Emissions</h3>
-            <p class="stat-value">{{ (totalEmissions() || 0).toFixed(2) }}</p>
+            <p class="stat-value">{{ totalEmissionsFormatted() }}</p>
             <p class="stat-label">Mt CO₂ equivalent</p>
           </div>
         </mat-card-content>
@@ -65,7 +65,7 @@
           </div>
           <div class="stat-info">
             <h3>Average Emissions</h3>
-            <p class="stat-value">{{ (avgEmissions() || 0).toFixed(2) }}</p>
+            <p class="stat-value">{{ avgEmissionsFormatted() }}</p>
             <p class="stat-label">Per record</p>
           </div>
         </mat-card-content>
